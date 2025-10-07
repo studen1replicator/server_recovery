@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+if [ "$#" -ne 1 ]
+then
+	echo "Please, use only one argument - name of program/service"
+	exit 1
+fi
+
+target="$1"
+
+(dpkg -l | grep "$target") > /dev/null
+if [ "$?" -ne 0 ]
+then
+	echo "packet need to install"
+	read -p "Are you wanna to install it? y/n: " answer
+	if [ "$answer" == "y" ]
+	then
+		echo "using sudo..."
+		sudo apt istall "$target" -y
+	fi
+	exit 0
+fi
+
+echo "packet are installed"
+exit 2
